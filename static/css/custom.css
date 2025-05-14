@@ -1,0 +1,121 @@
+/* Hide quick reply buttons */
+#quick-replies {
+    display: none !important;
+}
+
+/* Hide any quick reply buttons */
+.quick-reply-btn {
+    display: none !important;
+}
+
+/* Style for suggested questions in sidebar */
+.suggested-questions-section {
+    margin-bottom: 20px;
+    display: block !important;
+}
+
+.suggested-questions {
+    display: block !important;
+}
+
+.question-list {
+    max-height: 300px;
+    overflow-y: auto;
+    display: block !important;
+}
+
+.question-item {
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    padding: 8px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    font-size: 0.9rem;
+    display: block !important;
+}
+
+.question-item:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+/* Only hide suggested questions in the chat input container */
+.chat-input-container .suggested-questions,
+.chat-input-container #question-list,
+.chat-input-container .question-list,
+.chat-input-container .question-item,
+.chat-input-container .suggested-question,
+.chat-input-container div[class*="question-item"],
+.chat-input-container div[class*="suggested-question"],
+.chat-input-container .btn.btn-outline-secondary.btn-sm.suggested-question,
+.chat-input-container .p-2.mb-2.suggested-question,
+.chat-input-container button.btn-outline-secondary,
+.chat-input-container .btn.btn-outline-secondary.btn-sm {
+    display: none !important;
+}
+
+/* Ensure sidebar suggested questions are visible */
+.sidebar .suggested-questions-section,
+.sidebar .suggested-questions,
+.sidebar #question-list,
+.sidebar .question-list,
+.sidebar .question-item {
+    display: block !important;
+}
+
+/* Fix layout when sidebar is collapsed */
+.sidebar-collapsed {
+    position: absolute !important;
+    left: -300px;
+    width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    flex: 0 0 0% !important;
+    border: none !important;
+}
+
+.chat-container-expanded {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* Back to home link */
+.back-to-home {
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.back-to-home:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* Logo link styling */
+.logo-link {
+    display: block;
+    transition: all 0.3s ease;
+    color: inherit;
+}
+
+.logo-link:hover {
+    transform: translateY(-2px);
+    color: var(--primary-color);
+}
+
+.logo-link h3 {
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.logo-link:hover h3 {
+    text-shadow: 0 2px 10px rgba(48, 98, 211, 0.2);
+}

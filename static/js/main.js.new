@@ -1,0 +1,315 @@
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded');
+    
+    // DOM Elements
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-btn');
+    const chatMessages = document.getElementById('chat-messages');
+    const clearButton = document.getElementById('clear-btn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const chatContainer = document.querySelector('.chat-container');
+    
+    console.log('messageInput:', messageInput);
+    console.log('sendButton:', sendButton);
+    
+    // Chat history
+    let chatHistory = [];
+    
+    // Remove any suggested questions
+    function removeSuggestedQuestions() {
+        const elementsToRemove = document.querySelectorAll('.suggested-questions, #question-list, .question-item, .suggested-question, button.btn-outline-secondary, .btn.btn-outline-secondary.btn-sm');
+        elementsToRemove.forEach(element => {
+            if (element && element.parentNode) {
+                element.parentNode.removeChild(element);
+            }
+        });
+        
+        // Also remove any elements below the chat input container except the input group
+        const chatInputContainer = document.querySelector('.chat-input-container');
+        if (chatInputContainer) {
+            Array.from(chatInputContainer.children).forEach(child => {
+                if (!child.classList.contains('input-group')) {
+                    chatInputContainer.removeChild(child);
+                }
+            });
+        }
+    }
+    
+    // Call immediately and set an interval to keep removing
+    removeSuggestedQuestions();
+    setInterval(removeSuggestedQuestions, 500);
+    
+    // Sidebar toggle functionality
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-collapsed');
+        chatContainer.classList.toggle('chat-container-expanded');
+        
+        // Change icon based on sidebar state
+        const icon = this.querySelector('i');
+        if (sidebar.classList.contains('sidebar-collapsed')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-chevron-right');
+        } else {
+            icon.classList.remove('fa-chevron-right');
+            icon.classList.add('fa-bars');
+        }
+    });
+    
+    // Auto-resize textarea
+    messageInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+        
+        // Limit to 5 rows
+        const lineHeight = parseInt(getComputedStyle(this).lineHeight);
+        const maxHeight = lineHeight * 5;
+        if (this.scrollHeight > maxHeight) {
+            this.style.height = maxHeight + 'px';
+            this.style.overflowY = 'auto';
+        } else {
+            this.style.overflowY = 'hidden';
+        }
+    });
+    
+    // Send message on enter key (without shift)
+    messageInput.addEventListener('keydown', function(e) {
+        console.log('Key pressed:', e.key);
+        if (e.key === 'Enter' && !e.shiftKey) {
+            console.log('Enter key pressed without shift');
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    // Send message on button click
+    sendButton.addEventListener('click', function() {
+        console.log('Send button clicked');
+        sendMessage();
+    });
+    
+    // Clear button
+    clearButton.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear your chat history?')) {
+            clearAllData();
+        }
+    });
+    
+    // Function to send a message
+    function sendMessage() {
+        console.log('sendMessage function called');
+        const message = messageInput.value.trim();
+        console.log('Message:', message);
+        if (!message) {
+            console.log('Message is empty, returning');
+            return;
+        }
+        
+        // Add user message to chat
+        addMessageToChat('user', message);
+        
+        // Clear input
+        messageInput.value = '';
+        messageInput.style.height = 'auto';
+        
+        // Scroll to bottom
+        scrollToBottom();
+        
+        // Add typing indicator
+        addTypingIndicator();
+        
+        // Send to backend
+        fetchChatResponse(message);
+    }
+    
+    // Function to add a message to the chat
+    function addMessageToChat(role, content) {
+        const messageRow = document.createElement('div');
+        messageRow.className = `message-row ${role}-message`;
+        
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        let avatarIcon = 'robot';
+        if (role === 'user') {
+            avatarIcon = 'user';
+        }
+        
+        messageRow.innerHTML = `
+            <div class="avatar">
+                <i class="fas fa-${avatarIcon}"></i>
+            </div>
+            <div class="message-content">
+                <div class="message-bubble">
+                    <p>${formatMessage(content)}</p>
+                </div>
+                <div class="message-info">
+                    <span class="message-time">${timestamp}</span>
+                </div>
+            </div>
+        `;
+        
+        chatMessages.appendChild(messageRow);
+        
+        // Add to history
+        chatHistory.push({ role, content, timestamp });
+        
+        // Scroll to bottom
+        scrollToBottom();
+    }
+    
+    // Function to format message content (with markdown-like features)
+    function formatMessage(content) {
+        // Convert line breaks to <br>
+        content = content.replace(/\n/g, '<br>');
+        
+        // Bold text between **
+        content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+        // Italic text between *
+        content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        
+        // Code blocks
+        content = content.replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>');
+        
+        // Inline code
+        content = content.replace(/`(.*?)`/g, '<code>$1</code>');
+        
+        return content;
+    }
+    
+    // Function to add typing indicator
+    function addTypingIndicator() {
+        const typingIndicator = document.createElement('div');
+        typingIndicator.id = 'typing-indicator';
+        typingIndicator.className = 'message-row bot-message';
+        
+        typingIndicator.innerHTML = `
+            <div class="avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        `;
+        
+        chatMessages.appendChild(typingIndicator);
+        scrollToBottom();
+    }
+    
+    // Function to remove typing indicator
+    function removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+    
+    // Function to fetch chat response from backend
+    function fetchChatResponse(message) {
+        // Start request time
+        const requestStartTime = new Date();
+        
+        fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Remove typing indicator
+            removeTypingIndicator();
+            
+            // Calculate response time
+            const responseTime = (new Date() - requestStartTime) / 1000;
+            console.log(`Response received in ${responseTime.toFixed(2)}s`);
+            
+            // Add bot response to chat
+            if (data.error) {
+                // If there's an error but also a fallback response, use that
+                if (data.fallback_response) {
+                    addMessageToChat('bot', data.fallback_response);
+                } else {
+                    addMessageToChat('bot', `Error: ${data.error}`);
+                }
+            } else {
+                addMessageToChat('bot', data.response);
+                
+                // If processing time is available, log it
+                if (data.processing_time) {
+                    console.log(`Server processing time: ${data.processing_time}s`);
+                }
+            }
+        })
+        .catch(error => {
+            // Remove typing indicator
+            removeTypingIndicator();
+            
+            // Add error message
+            addMessageToChat('bot', 'Sorry, I encountered an error processing your request. Please try asking about Rubber Bumper\'s products, market position, or factory conversion options.');
+            console.error('Error:', error);
+        });
+    }
+    
+    // Function to clear all data
+    function clearAllData() {
+        // Show loading overlay
+        loadingOverlay.classList.remove('d-none');
+        
+        fetch('/clear', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Clear chat messages except the first welcome message
+            while (chatMessages.children.length > 1) {
+                chatMessages.removeChild(chatMessages.lastChild);
+            }
+            
+            // Clear chat history
+            chatHistory = [];
+            
+            // Add system message with cache info if available
+            let message = 'Chat history has been cleared. You can start a new conversation.';
+            if (data.cache_size !== undefined) {
+                message += ` (Cache size: ${data.cache_size})`;
+            }
+            addMessageToChat('bot', message);
+            
+            // Hide loading overlay
+            loadingOverlay.classList.add('d-none');
+        })
+        .catch(error => {
+            // Hide loading overlay
+            loadingOverlay.classList.add('d-none');
+            
+            // Show error
+            alert('Failed to clear data: ' + error.message);
+            console.error('Error:', error);
+        });
+    }
+    
+    // Function to scroll chat to bottom
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});

@@ -33,7 +33,20 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    transition: background-color var(--transition-speed) ease;
+    transition: all var(--transition-speed) ease;
+    position: relative;
+    z-index: 1000;
+}
+
+/* Sidebar toggle button */
+#sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: all var(--transition-speed) ease;
 }
 
 .sidebar-header {
@@ -54,6 +67,8 @@ body {
     flex-direction: column;
     height: 100vh;
     background-color: var(--background-color);
+    transition: all var(--transition-speed) ease;
+    position: relative;
 }
 
 .chat-header {
@@ -113,30 +128,17 @@ body {
 
 .question-item {
     border-radius: var(--rounded-sm);
-    background-color: var(--surface-color);
-    border: 1px solid var(--border-color);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: all var(--transition-speed) ease;
+    white-space: nowrap;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .question-item:hover {
     border-color: var(--primary-color);
     background-color: var(--hover-color);
-}
-
-.suggested-question {
-    position: relative;
-    padding-left: 26px;
-}
-
-.suggested-question:before {
-    content: '\f059';
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    position: absolute;
-    left: 8px;
-    color: var(--primary-color);
 }
 
 /* Messages */
@@ -244,6 +246,11 @@ body {
     padding: 8px 12px;
 }
 
+.typing-indicator-bubble {
+    background-color: var(--bot-message-bg);
+    border-top-left-radius: 0;
+}
+
 .typing-indicator span {
     height: 8px;
     width: 8px;
@@ -309,12 +316,43 @@ body {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
     }
-    
+
     .sidebar.show {
         transform: translateX(0);
     }
-    
+
     .message-content {
         max-width: 85%;
     }
+}
+
+/* Sidebar collapsed state */
+.sidebar-collapsed {
+    transform: translateX(-100%);
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    flex: 0;
+}
+
+.chat-container-expanded {
+    width: 100%;
+    flex: 1;
+    max-width: 100%;
+}
+
+/* Suggested questions in chat panel */
+.chat-input-container .suggested-questions {
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+}
+
+.chat-input-container .question-list {
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Chat Illustration</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#3062D3" offset="0%"></stop>
+            <stop stop-color="#5C85E6" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#E9F5FF" offset="0%"></stop>
+            <stop stop-color="#F0F4FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#F8F9FA" offset="0%"></stop>
+            <stop stop-color="#E9ECEF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Chat-Illustration" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Background Elements -->
+        <circle id="Background-Circle-1" fill="#E9F5FF" cx="150" cy="450" r="100"></circle>
+        <circle id="Background-Circle-2" fill="#F0F4FF" cx="650" cy="150" r="80"></circle>
+        
+        <!-- Chat Interface -->
+        <rect id="Chat-Window" fill="#FFFFFF" x="200" y="100" width="400" height="400" rx="20"></rect>
+        <rect id="Chat-Header" fill="url(#linearGradient-1)" x="200" y="100" width="400" height="60" rx="20" ry="0"></rect>
+        <rect id="Chat-Header-Fix" fill="url(#linearGradient-1)" x="200" y="140" width="400" height="20"></rect>
+        
+        <!-- Header Elements -->
+        <circle id="Header-Button-1" fill="#FFFFFF" opacity="0.5" cx="240" cy="130" r="8"></circle>
+        <circle id="Header-Button-2" fill="#FFFFFF" opacity="0.5" cx="270" cy="130" r="8"></circle>
+        <circle id="Header-Button-3" fill="#FFFFFF" opacity="0.5" cx="300" cy="130" r="8"></circle>
+        <text id="Chat-Title" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">
+            <tspan x="330" y="135">Rubber Bumper Chat</tspan>
+        </text>
+        
+        <!-- Chat Messages -->
+        <!-- Bot Message 1 -->
+        <g id="Bot-Message-1" transform="translate(220, 180)">
+            <rect id="Bot-Bubble-1" fill="url(#linearGradient-2)" x="0" y="0" width="250" height="60" rx="10"></rect>
+            <circle id="Bot-Avatar-1" fill="url(#linearGradient-1)" cx="15" cy="15" r="10"></circle>
+            <text id="Bot-Text-1" font-family="Arial, sans-serif" font-size="12" fill="#1F2937">
+                <tspan x="30" y="20">Hello! I'm your Rubber Bumper</tspan>
+                <tspan x="30" y="40">case study assistant. How can I help?</tspan>
+            </text>
+        </g>
+        
+        <!-- User Message -->
+        <g id="User-Message" transform="translate(330, 260)">
+            <rect id="User-Bubble" fill="#E9F5FF" x="0" y="0" width="250" height="40" rx="10"></rect>
+            <circle id="User-Avatar" fill="#6B7280" cx="235" cy="15" r="10"></circle>
+            <text id="User-Text" font-family="Arial, sans-serif" font-size="12" fill="#1F2937">
+                <tspan x="20" y="25">What products does Rubber Bumper sell?</tspan>
+            </text>
+        </g>
+        
+        <!-- Bot Message 2 -->
+        <g id="Bot-Message-2" transform="translate(220, 320)">
+            <rect id="Bot-Bubble-2" fill="url(#linearGradient-2)" x="0" y="0" width="250" height="80" rx="10"></rect>
+            <circle id="Bot-Avatar-2" fill="url(#linearGradient-1)" cx="15" cy="15" r="10"></circle>
+            <text id="Bot-Text-2" font-family="Arial, sans-serif" font-size="12" fill="#1F2937">
+                <tspan x="30" y="20">Rubber Bumper manufactures two main</tspan>
+                <tspan x="30" y="40">products: rubber bands and condoms.</tspan>
+                <tspan x="30" y="60">They are a market leader in both categories.</tspan>
+            </text>
+        </g>
+        
+        <!-- Chat Input -->
+        <rect id="Chat-Input-Area" fill="#F9FAFB" x="200" y="440" width="400" height="60" rx="0" ry="0"></rect>
+        <rect id="Chat-Input-Fix" fill="#F9FAFB" x="200" y="420" width="400" height="20"></rect>
+        <rect id="Chat-Input-Bottom-Fix" fill="#F9FAFB" x="200" y="480" width="400" height="20" rx="0" ry="20"></rect>
+        <rect id="Chat-Input-Field" fill="#FFFFFF" stroke="#E5E7EB" x="220" y="450" width="320" height="40" rx="20"></rect>
+        <text id="Input-Placeholder" font-family="Arial, sans-serif" font-size="12" fill="#6B7280" opacity="0.7">
+            <tspan x="240" y="475">Type your question here...</tspan>
+        </text>
+        <circle id="Send-Button" fill="url(#linearGradient-1)" cx="560" cy="470" r="20"></circle>
+        <path d="M560,465 L565,470 L560,475" id="Send-Icon" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        
+        <!-- Suggested Questions -->
+        <g id="Suggested-Question-1" transform="translate(220, 400)">
+            <rect id="Question-Bubble-1" fill="url(#linearGradient-3)" x="0" y="0" width="120" height="25" rx="12.5"></rect>
+            <text id="Question-Text-1" font-family="Arial, sans-serif" font-size="10" fill="#1F2937">
+                <tspan x="10" y="16">Company financials?</tspan>
+            </text>
+        </g>
+        
+        <g id="Suggested-Question-2" transform="translate(350, 400)">
+            <rect id="Question-Bubble-2" fill="url(#linearGradient-3)" x="0" y="0" width="100" height="25" rx="12.5"></rect>
+            <text id="Question-Text-2" font-family="Arial, sans-serif" font-size="10" fill="#1F2937">
+                <tspan x="10" y="16">Market position?</tspan>
+            </text>
+        </g>
+        
+        <!-- Decorative Elements -->
+        <circle id="Decorative-Circle-1" fill="url(#linearGradient-1)" opacity="0.1" cx="150" cy="150" r="50"></circle>
+        <circle id="Decorative-Circle-2" fill="url(#linearGradient-1)" opacity="0.1" cx="650" cy="450" r="70"></circle>
+        <path d="M100,300 C150,250 200,350 250,300" id="Decorative-Wave-1" stroke="url(#linearGradient-1)" stroke-width="3" opacity="0.2"></path>
+        <path d="M550,200 C600,150 650,250 700,200" id="Decorative-Wave-2" stroke="url(#linearGradient-1)" stroke-width="3" opacity="0.2"></path>
+    </g>
+</svg>

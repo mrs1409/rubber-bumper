@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubber Bumper Bot</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <!-- Left Panel: Navigation & Info -->
+            <div class="col-md-3 col-lg-3 sidebar" id="sidebar">
+                <div class="sidebar-header p-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="logo-container">
+                            <h3 class="fw-bold">Rubber Bumper</h3>
+                            <p class="text-muted small">Case Study Assistant</p>
+                        </div>
+                        <div class="theme-toggle">
+                            <button id="theme-toggle-btn" class="btn btn-sm">
+                                <i class="fas fa-sun" id="light-icon"></i>
+                                <i class="fas fa-moon" id="dark-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-content p-3">
+                    <div class="mb-4 key-facts-section">
+                        <h5>Rubber Bumper Co. Facts</h5>
+                        <div class="key-facts p-3">
+                            <div class="fact-item">
+                                <h6><i class="fas fa-industry me-2"></i>Company</h6>
+                                <p class="small">Small family-owned producer of rubber products with a focus on quality.</p>
+                            </div>
+                            <div class="fact-item">
+                                <h6><i class="fas fa-boxes me-2"></i>Products</h6>
+                                <p class="small">Two main products: rubber bands and condoms.</p>
+                            </div>
+                            <div class="fact-item">
+                                <h6><i class="fas fa-chart-line me-2"></i>Market Position</h6>
+                                <p class="small">Market leader in both product categories.</p>
+                            </div>
+                            <div class="fact-item">
+                                <h6><i class="fas fa-money-bill-wave me-2"></i>Financial</h6>
+                                <p class="small">Decreasing profits despite stable sales over the last 3 years.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suggested questions moved to chat panel -->
+
+                    <div class="mb-4 about-section">
+                        <h5>About</h5>
+                        <p class="small">Rubber Bumper Bot is designed to help you analyze the Rubber Bumper Co. case study. Ask questions about the company's products, market position, financials, and strategic options.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer p-3">
+                    <button class="btn btn-danger btn-sm w-100" id="clear-btn">
+                        <i class="fas fa-trash me-1"></i> Clear Chat History
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Chat Interface -->
+            <div class="col-md-9 col-lg-9 chat-container">
+                <div class="chat-header p-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <h4>Rubber Bumper Chat Assistant</h4>
+                        <p class="text-muted small m-0">Ask questions about the case study</p>
+                    </div>
+                    <div>
+                        <button id="sidebar-toggle" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-messages p-3" id="chat-messages">
+                    <div class="message-row bot-message">
+                        <div class="avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Hello! I'm your Rubber Bumper case study assistant. I can answer questions about Rubber Bumper Co's business, market position, financial performance, and strategic options. Try asking me about their products, profit margins, or the potential plant conversion project.</p>
+                            </div>
+                            <div class="message-info">
+                                <span class="message-time">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container p-3">
+                    <div class="input-group">
+                        <textarea id="message-input" class="form-control" placeholder="Type your question here..." rows="1"></textarea>
+                        <button class="btn btn-primary" id="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <!-- Suggested Questions Section removed as requested -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Processing...</p>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="{{ url_for('static', filename='js/dark-mode.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

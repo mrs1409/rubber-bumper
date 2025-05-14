@@ -3,136 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rubber Bumper Bot</title>
-    
+    <title>Rubber Bumper - Case Study Assistant</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row vh-100">
-            <!-- Left Panel: Navigation & Info -->
-            <div class="col-md-3 col-lg-3 sidebar">
-                <div class="sidebar-header p-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="logo-container">
-                            <h3 class="fw-bold">Rubber Bumper</h3>
-                            <p class="text-muted small">Case Study Assistant</p>
-                        </div>
-                        <div class="theme-toggle">
-                            <button id="theme-toggle-btn" class="btn btn-sm">
-                                <i class="fas fa-sun" id="light-icon"></i>
-                                <i class="fas fa-moon" id="dark-icon"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-spinner"></div>
+    </div>
 
-                <div class="sidebar-content p-3">
-                    <div class="mb-4 key-facts-section">
-                        <h5>Rubber Bumper Co. Facts</h5>
-                        <div class="key-facts p-3">
-                            <div class="fact-item">
-                                <h6><i class="fas fa-industry me-2"></i>Company</h6>
-                                <p class="small">Small family-owned producer of rubber products with a focus on quality.</p>
-                            </div>
-                            <div class="fact-item">
-                                <h6><i class="fas fa-boxes me-2"></i>Products</h6>
-                                <p class="small">Two main products: rubber bands and condoms.</p>
-                            </div>
-                            <div class="fact-item">
-                                <h6><i class="fas fa-chart-line me-2"></i>Market Position</h6>
-                                <p class="small">Market leader in both product categories.</p>
-                            </div>
-                            <div class="fact-item">
-                                <h6><i class="fas fa-money-bill-wave me-2"></i>Financial</h6>
-                                <p class="small">Decreasing profits despite stable sales over the last 3 years.</p>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay"></div>
 
-                    <div class="mb-4 suggested-questions">
-                        <h5>Suggested Questions</h5>
-                        <div class="question-list" id="question-list">
-                            <!-- Questions will be dynamically populated from JavaScript -->
-                        </div>
-                    </div>
-
-                    <div class="mb-4 about-section">
-                        <h5>About</h5>
-                        <p class="small">Rubber Bumper Bot is designed to help you analyze the Rubber Bumper Co. case study. Ask questions about the company's products, market position, financials, and strategic options.</p>
-                    </div>
-                </div>
-
-                <div class="sidebar-footer p-3">
-                    <button class="btn btn-danger btn-sm w-100" id="clear-btn">
-                        <i class="fas fa-trash me-1"></i> Clear Chat History
-                    </button>
-                </div>
-            </div>
-
-            <!-- Right Panel: Chat Interface -->
-            <div class="col-md-9 col-lg-9 chat-container">
-                <div class="chat-header p-3 d-flex align-items-center">
-                    <div>
-                        <h4>Rubber Bumper Chat Assistant</h4>
-                        <p class="text-muted small m-0">Ask questions about the case study</p>
-                    </div>
-                </div>
-
-                <div class="chat-messages p-3" id="chat-messages">
-                    <div class="message-row bot-message">
-                        <div class="avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="message-content">
-                            <div class="message-bubble">
-                                <p>Hello! I'm your Rubber Bumper case study assistant. I can answer questions about Rubber Bumper Co's business, market position, financial performance, and strategic options. Try asking me about their products, profit margins, or the potential plant conversion project.</p>
-                            </div>
-                            <div class="message-info">
-                                <span class="message-time">Just now</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chat-input-container p-3">
-                    <div class="input-group">
-                        <textarea id="message-input" class="form-control" placeholder="Type your question here..." rows="1"></textarea>
-                        <button class="btn btn-primary" id="send-btn">
-                            <i class="fas fa-paper-plane"></i>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <span class="brand-text">Rubber Bumper</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/chat">Chat Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="theme-toggle-btn" class="btn btn-sm theme-toggle-btn">
+                            <i class="fas fa-sun" id="light-icon"></i>
+                            <i class="fas fa-moon" id="dark-icon"></i>
                         </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                    <h1 class="hero-title">Rubber Bumper Case Study Assistant</h1>
+                    <p class="hero-subtitle">Your intelligent companion for analyzing the Rubber Bumper business case. Get instant answers about market position, financial data, and strategic options.</p>
+                    <div class="hero-buttons">
+                        <a href="/chat" class="btn btn-primary btn-lg get-started-btn" onclick="setTimeout(function() { window.location.href = '/chat'; }, 300);">
+                            <i class="fas fa-comments me-2"></i>Get Started
+                        </a>
+                        <a href="#features" class="btn btn-outline-secondary btn-lg ms-3 learn-more-btn">
+                            <i class="fas fa-info-circle me-2"></i>Learn More
+                        </a>
                     </div>
-                    <div id="quick-replies" class="mt-2 d-flex flex-wrap gap-2">
-                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">Should they convert the factory?</button>
-                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">Compare profitability of both products</button>
-                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">What are the market trends?</button>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="hero-image-container">
+                        <img src="{{ url_for('static', filename='images/chat-illustration.svg') }}" alt="Rubber Bumper Chat" class="hero-image">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" class="loading-overlay d-none">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div class="hero-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="var(--surface-color)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
         </div>
-        <p class="mt-2">Processing...</p>
-    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <h2>Powerful Features</h2>
+                <p>Discover what makes our Rubber Bumper assistant so effective</p>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Smart Keyword Matching</h3>
+                        <p>Our advanced score-based keyword matching system ensures accurate and relevant responses to your queries.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Context Awareness</h3>
+                        <p>The chatbot understands the context of your questions using vector store integration for more natural conversations.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Fast Response Time</h3>
+                        <p>Get instant answers with our optimized response caching system that delivers information quickly.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>Suggested Questions</h3>
+                        <p>Never run out of ideas with our intelligent suggested questions that guide your exploration.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Responsive Design</h3>
+                        <p>Access the chatbot from any device with our fully responsive and adaptive interface.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <h3>Dark Mode Support</h3>
+                        <p>Reduce eye strain with our elegant dark mode that adapts to your preferences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-image-container">
+                        <img src="{{ url_for('static', filename='images/about-illustration.svg') }}" alt="About Rubber Bumper" class="about-image">
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="about-content">
+                        <h2>About Rubber Bumper</h2>
+                        <p>Rubber Bumper Co. is a small family-owned producer of rubber products with a focus on quality. The company manufactures two main products: rubber bands and condoms, and is a market leader in both categories.</p>
+                        <p>Despite stable sales over the last 3 years, the company has been experiencing decreasing profits. This case study explores the strategic options available to the company, including the potential conversion of their rubber band factory.</p>
+                        <p>Our chatbot assistant is designed to help you analyze this business case by providing instant access to relevant information about the company's products, market position, financial data, and strategic options.</p>
+                        <a href="/chat" class="btn btn-primary mt-3">Start Analyzing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center" data-aos="zoom-in">
+            <h2>Ready to explore the Rubber Bumper case?</h2>
+            <p>Get instant answers to your questions and gain valuable insights.</p>
+            <a href="/chat" class="btn btn-primary btn-lg mt-4 cta-button">
+                <i class="fas fa-comments me-2"></i>Start Chatting Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="/" class="text-decoration-none footer-logo-link">
+                        <h3>Rubber Bumper</h3>
+                    </a>
+                    <p>An intelligent case study assistant powered by advanced AI technology.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2023 Rubber Bumper. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <!-- Custom Scripts -->
     <script src="{{ url_for('static', filename='js/dark-mode.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/page-transitions.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/landing-page.js') }}"></script>
 </body>
 </html>

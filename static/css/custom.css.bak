@@ -1,0 +1,9 @@
+/* Hide quick reply buttons */
+#quick-replies {
+    display: none !important;
+}
+
+/* Hide any quick reply buttons */
+.quick-reply-btn {
+    display: none !important;
+}
