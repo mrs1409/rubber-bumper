@@ -5,11 +5,80 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatMessages = document.getElementById('chat-messages');
     const clearButton = document.getElementById('clear-btn');
     const quickReplyButtons = document.querySelectorAll('.quick-reply-btn');
-    const suggestedQuestions = document.querySelectorAll('.suggested-question');
+    const questionList = document.getElementById('question-list');
     const loadingOverlay = document.getElementById('loading-overlay');
     
     // Chat history
     let chatHistory = [];
+    
+    // Track asked questions to avoid repeating them
+    let askedQuestions = new Set();
+    
+    // All available suggested questions
+    const allSuggestedQuestions = [
+        "What is the company name?",
+        "What products does Rubber Bumper sell?",
+        "What is Rubber Bumper's market position?",
+        "How have the rubber band sales changed over time?",
+        "How has the condom market grown?",
+        "Which product is more profitable?",
+        "What are the profit margins for each product?",
+        "Should they convert the rubber band factory?",
+        "What are the risks of factory conversion?",
+        "Who are the main competitors?",
+        "What is the payback period for factory conversion?",
+        "How many factories does Rubber Bumper have?",
+        "What is the cost of factory conversion?",
+        "What is the president concerned about?",
+        "What recommendation would you give Rubber Bumper?"
+    ];
+    
+    // Function to shuffle an array (Fisher-Yates algorithm)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    
+    // Function to update suggested questions
+    function updateSuggestedQuestions() {
+        // Clear current questions
+        questionList.innerHTML = '';
+        
+        // Get available questions (those not yet asked)
+        const availableQuestions = allSuggestedQuestions.filter(q => !askedQuestions.has(q));
+        
+        // If all questions have been asked, reset the tracking
+        if (availableQuestions.length < 5) {
+            askedQuestions.clear();
+        }
+        
+        // Get shuffled available questions
+        const shuffledQuestions = shuffleArray([...allSuggestedQuestions])
+            .filter(q => !askedQuestions.has(q))
+            .slice(0, 10);
+        
+        // Add questions to the list
+        shuffledQuestions.forEach(question => {
+            const questionItem = document.createElement('div');
+            questionItem.className = 'question-item p-2 mb-2 suggested-question';
+            questionItem.textContent = question;
+            questionItem.addEventListener('click', function() {
+                messageInput.value = this.textContent;
+                // Mark this question as asked
+                askedQuestions.add(this.textContent);
+                sendMessage();
+                // Update suggested questions
+                setTimeout(updateSuggestedQuestions, 500);
+            });
+            questionList.appendChild(questionItem);
+        });
+    }
+    
+    // Initialize suggested questions
+    updateSuggestedQuestions();
     
     // Auto-resize textarea
     messageInput.addEventListener('input', function() {
@@ -66,6 +135,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = messageInput.value.trim();
         if (!message) return;
         
+        // Check if the message matches any suggested question
+        allSuggestedQuestions.forEach(question => {
+            if (message.toLowerCase() === question.toLowerCase()) {
+                askedQuestions.add(question);
+            }
+        });
+        
         // Add user message to chat
         addMessageToChat('user', message);
         
@@ -81,6 +157,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Send to backend
         fetchChatResponse(message);
+        
+        // Update suggested questions
+        updateSuggestedQuestions();
     }
     
     // Function to add a message to the chat
@@ -231,12 +310,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear chat history
             chatHistory = [];
             
-            // Clear document list
-            const documentList = document.getElementById('document-list');
-            documentList.innerHTML = '<p class="text-muted text-center small empty-state">No documents uploaded yet</p>';
+            // Reset asked questions
+            askedQuestions.clear();
+            updateSuggestedQuestions();
             
             // Add system message
-            addMessageToChat('bot', 'All data has been cleared. You can upload new documents to continue.');
+            addMessageToChat('bot', 'Chat history has been cleared. You can start a new conversation.');
             
             // Hide loading overlay
             loadingOverlay.classList.add('d-none');
