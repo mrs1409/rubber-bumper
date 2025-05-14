@@ -1,0 +1,77 @@
+Here’s a ready-to-paste “Replit AI” prompt that will spin up your complete Rubber Bumper Bot in one go. Just create a new Replit, choose the “Node.js + React” template, open the AI tab, and drop in this:
+
+```plaintext
+SYSTEM:
+You are an expert full-stack developer. I need you to generate a complete, production-ready chatbot application called “Rubber Bumper Bot” on Replit using only free-tier Hugging Face APIs. Your output should include every file, organized by path, so I can just click “Run” and have it live.
+
+Requirements:
+
+1. Frontend (React + TypeScript + Tailwind CSS + shadcn/ui):
+   • Responsive two-column layout: left nav with company logo, right chat window.
+   • Scrollable chat history with alternating user/bot bubbles, timestamps, avatars.
+   • Input area: multiline textbox, send button, “Upload PDF” button, quick-reply chips.
+   • Typing indicator, fallback “No response” message.
+   • Light/dark theme toggle, ARIA roles for accessibility, mobile-first design.
+
+2. Backend (Node.js + Express):
+   • POST /api/ingest: accept PDF upload, split into ~1000-char chunks, embed via Hugging Face “all-MiniLM-L6-v2”, store in Chroma.
+   • POST /api/chat: accept user message, retrieve top-k contexts, call HF Inference (“falcon-7b-instruct”) with streaming (SSE or websockets), return streamed tokens.
+   • Load HUGGINGFACEHUB_API_TOKEN from .env.
+   • Input validation, error handling, usage logging.
+
+3. Project structure:
+```
+
+/               ← root
+.replit
+README.md
+docker-compose.yml
+Dockerfile
+.env.example
+/backend
+package.json
+tsconfig.json
+src/
+server.ts
+routes/ingest.ts
+routes/chat.ts
+vectorstore.ts
+/frontend
+package.json
+tsconfig.json
+tailwind.config.js
+postcss.config.js
+src/
+index.html
+main.tsx
+components/
+NavBar.tsx
+ChatWindow\.tsx
+ChatInput.tsx
+PdfUploader.tsx
+hooks/useChat.ts
+utils/api.ts
+styles/globals.css
+/scripts
+ingest\_hf.ts
+
+```
+
+4. Docker & DevOps:
+• Dockerfile + docker-compose.yml for local “Run” in Replit.
+• GitHub Actions CI workflow file for linting and testing.
+• package.json scripts: dev, build, start, ingest.
+
+5. README:
+• Step-by-step instructions: clone, env setup, ingest, docker-compose up.
+• Explanation of features, file structure, deployment notes.
+
+6. Testing:
+• Jest tests for backend endpoints.
+• React Testing Library snapshot for <ChatWindow>.
+
+USER:
+Generate every file’s content in a single response, grouping by path (e.g. “── frontend/src/components/ChatInput.tsx”). Make sure `npm run dev` on Replit instantly launches both frontend (port 3000) and backend (port 8000). Use only free Hugging Face APIs—no paid keys. Enable streaming responses so the UI can render tokens in real time.
+```
+
+—Paste that into your Replit AI pane, let it scaffold the entire repo, then hit **Run**. You’ll have **Rubber Bumper Bot** live in minutes! 🚀
