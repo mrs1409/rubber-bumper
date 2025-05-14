@@ -1,0 +1,35 @@
+body.dark-mode {
+    --primary-color: #4d7ae8;
+    --secondary-color: #9ca3af;
+    --background-color: #111827;
+    --surface-color: #1f2937;
+    --text-color: #f9fafb;
+    --text-secondary: #9ca3af;
+    --border-color: #374151;
+    --bot-message-bg: #2a3649;
+    --user-message-bg: #2c3a4a;
+    --hover-color: #2a3649;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .loading-overlay {
+    background-color: rgba(17, 24, 39, 0.8);
+    color: var(--text-color);
+}
+
+body.dark-mode #light-icon {
+    display: none;
+}
+
+body.dark-mode #dark-icon {
+    display: inline-block;
+}
+
+body:not(.dark-mode) #light-icon {
+    display: inline-block;
+}
+
+body:not(.dark-mode) #dark-icon {
+    display: none;
+}
