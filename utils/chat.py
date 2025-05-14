@@ -1,9 +1,29 @@
 import os
 import json
 import re
+from groq import Groq
 
-# Note: We're not actually using any external API calls in this chatbot anymore
-# All responses are generated directly from our predefined knowledge base
+# Set up Groq API for better responses
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+groq_client = Groq(api_key=GROQ_API_KEY)
+
+# System prompt with case study context for Groq LLM
+SYSTEM_PROMPT = """You are a specialized assistant for the Rubber Bumper case study. 
+Provide direct, concise answers with no unnecessary text.
+Never start responses with phrases like "Based on the case study" or "According to the information."
+Just give the direct answer to the question in a single short sentence or paragraph.
+
+Here's key information about Rubber Bumper Co:
+- Small family-owned company producing rubber bands and condoms
+- Has two factories: one for rubber bands, one for condoms
+- Rubber band market has been flat (0% growth)
+- Condom market has grown 30% from 2011 to 2017
+- Rubber band factory: 40% profit margin, $4M profit (2017)
+- Condom factory: 60% profit margin, $4.5M profit (2017)
+- Converting rubber band factory would cost $2M and take 1 year
+- Payback period would be 5 years (company target is 4 years)
+- Key risks: uncertain market growth, marketing challenges, employee training
+"""
 
 def get_direct_response(user_message):
     """
@@ -130,6 +150,65 @@ def get_direct_response(user_message):
     # No direct match found
     return None
 
+def get_groq_response(user_message):
+    """
+    Get a response from the Groq API for Rubber Bumper questions.
+    
+    Args:
+        user_message: A string containing the user's message.
+        
+    Returns:
+        A string containing the generated response.
+    """
+    try:
+        # Check if the user message is related to Rubber Bumper
+        message_lower = user_message.lower()
+        rubber_terms = ["rubber", "bumper", "band", "condom", "factory", "profit", "market", 
+                       "competitor", "conversion", "president", "margin", "payback"]
+        
+        if not any(term in message_lower for term in rubber_terms) and len(message_lower.split()) > 2:
+            return "I can only answer questions about Rubber Bumper Co."
+            
+        # Get response from Groq API
+        response = groq_client.chat.completions.create(
+            model="llama3-8b-8192",  # Using Llama 3 model for fast, efficient responses
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_message}
+            ],
+            temperature=0.2,  # Low temperature for more factual responses
+            max_tokens=300,   # Limit response length for conciseness
+            top_p=0.95        # High precision for accurate answers
+        )
+        
+        # Extract and return the generated text
+        if response and response.choices and len(response.choices) > 0 and response.choices[0].message:
+            answer = response.choices[0].message.content
+            if answer:
+                answer = answer.strip()
+                
+                # Make sure the answer is concise - take first paragraph only if needed
+                if len(answer) > 300:
+                    # Try to find the first paragraph break
+                    paragraphs = answer.split('\n\n')
+                    if paragraphs:
+                        answer = paragraphs[0]
+            else:
+                answer = "Rubber Bumper Co makes rubber bands and condoms."
+        else:
+            answer = "Rubber Bumper Co makes rubber bands and condoms."
+                
+        return answer
+        
+    except Exception as e:
+        # If API fails, fall back to direct response
+        print(f"Groq API error: {str(e)}")
+        direct_response = get_direct_response(user_message)
+        if direct_response:
+            return direct_response
+        return "The rubber band market has been flat, while the condom market has grown 30% from 2011 to 2017. The condom business is more profitable with a 60% margin compared to the rubber band business with a 40% margin."
+
+
 def get_chat_response(user_message, vector_store, max_context_length=4000):
     """
     Generate a direct response to a user message about Rubber Bumper.
@@ -146,107 +225,10 @@ def get_chat_response(user_message, vector_store, max_context_length=4000):
     if not user_message or len(user_message.strip()) < 2:
         return "Please ask me a question about Rubber Bumper Co."
     
-    # First try to get a direct response to common questions
+    # Try to get a direct response to common questions first
     direct_response = get_direct_response(user_message)
     if direct_response:
         return direct_response
-    
-    # Extract important keywords from user message
-    message_lower = user_message.lower()
-    message_words = set(message_lower.split())
-    
-    # Define categories of questions with specific keywords
-    product_terms = {"product", "sell", "make", "band", "condom", "rubber"}
-    factory_terms = {"factory", "factories", "produce", "production", "manufacturing", "plant"}
-    market_terms = {"market", "industry", "growth", "trend", "competition", "demand", "supply"}
-    financial_terms = {"profit", "margin", "revenue", "cost", "financial", "money", "income", "expense", "overhead"}
-    conversion_terms = {"convert", "conversion", "transform", "change", "switch", "transition"}
-    recommendation_terms = {"recommend", "suggestion", "advice", "should", "best", "option", "decision"}
-    
-    # Check category of question by counting keyword matches
-    product_score = sum(1 for term in product_terms if term in message_words)
-    factory_score = sum(1 for term in factory_terms if term in message_words)
-    market_score = sum(1 for term in market_terms if term in message_words)
-    financial_score = sum(1 for term in financial_terms if term in message_words)
-    conversion_score = sum(1 for term in conversion_terms if term in message_words)
-    recommendation_score = sum(1 for term in recommendation_terms if term in message_words)
-    
-    # Determine the primary topic of the question
-    scores = {
-        "product": product_score,
-        "factory": factory_score,
-        "market": market_score,
-        "financial": financial_score,
-        "conversion": conversion_score,
-        "recommendation": recommendation_score
-    }
-    primary_topic = max(scores.items(), key=lambda x: x[1])[0] if any(scores.values()) else None
-    
-    # If the question is clearly unrelated to Rubber Bumper
-    if primary_topic is None:
-        rubber_bumper_terms = {"rubber", "bumper", "band", "condom", "factory", "profit", "market", "competitor", 
-                               "risk", "conversion", "president", "product", "margin", "overhead", "payback", 
-                               "cost", "revenue", "sales", "strategic", "company"}
         
-        if not any(term in message_words for term in rubber_bumper_terms):
-            return "I can only answer questions about Rubber Bumper Co."
-    
-    # Get relevant context from the vector store for better contextual understanding
-    relevant_contexts = vector_store.search(user_message, top_k=2)
-    
-    # Specific direct responses based on topic
-    if primary_topic == "product":
-        return "Rubber Bumper Co sells two products: rubber bands and condoms."
-    
-    elif primary_topic == "factory":
-        return "Rubber Bumper Co has two factories - one for producing rubber bands and one for producing condoms."
-    
-    elif primary_topic == "market":
-        if "band" in message_words or "rubber band" in message_lower:
-            return "The rubber band market has been flat (0% growth), with Rubber Bumper's share decreasing from 4 million pounds in 2011 to 2 million pounds in 2017."
-        elif "condom" in message_words:
-            return "The condom market has grown 30% from 2011 to 2017, increasing from 350 million to 450 million units."
-        else:
-            return "The rubber band market has been flat, while the condom market has grown 30% from 2011 to 2017."
-    
-    elif primary_topic == "financial":
-        if "margin" in message_words or "profit margin" in message_lower:
-            return "Condoms have a 60% profit margin, while rubber bands have a 40% profit margin."
-        elif "compare" in message_words or "comparison" in message_lower:
-            return "The condom factory had a profit of $4.5 million in 2017 with a 60% margin, while the rubber band factory had a profit of $4 million with a 40% margin."
-        else:
-            return "The condom business is more profitable with a 60% margin compared to the rubber band business with a 40% margin."
-    
-    elif primary_topic == "conversion":
-        if "cost" in message_words:
-            return "Converting the rubber band factory to produce condoms would cost $2 million."
-        elif "risk" in message_words:
-            return "Key risks of conversion include: assuming Rubber Bumper can triple condom sales, potential rebound in rubber band demand, less product diversification, and employee resistance."
-        elif "payback" in message_words:
-            return "The payback period for the factory conversion would be 5 years, which exceeds the company's 4-year target."
-        else:
-            return "Converting the rubber band factory to produce condoms would cost $2 million and take 1 year. After conversion, the factory could produce 20 million condoms with a 5-year payback period."
-    
-    elif primary_topic == "recommendation":
-        return "The company should first invest in market research to verify demand for increased condom production before converting the factory, as the 5-year payback period currently exceeds their 4-year target."
-    
-    # If we have a relevant context from the vector store, use that
-    if relevant_contexts:
-        best_context = relevant_contexts[0][0]
-        
-        # Extract key facts from the context - only short, direct statements
-        sentences = [s.strip() for s in re.split(r'[.!?]', best_context) if s.strip()]
-        
-        # Find the most relevant sentence (shortest one that contains keywords from the question)
-        for sentence in sorted(sentences, key=len):
-            if any(word in sentence.lower() for word in message_words if len(word) > 3):
-                if len(sentence) < 200:  # Keep responses concise
-                    return sentence
-        
-        # If no perfect match, return the shortest informative sentence
-        for sentence in sorted(sentences, key=len):
-            if len(sentence) > 20 and len(sentence) < 150:
-                return sentence
-    
-    # Last resort fallback - shortest, most direct answer
-    return "Rubber Bumper Co is a small family-owned producer of rubber bands and condoms. The condom business is more profitable (60% margin vs 40% margin for rubber bands)."
+    # If no direct answer in our database, use Groq API
+    return get_groq_response(user_message)

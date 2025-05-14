@@ -254,6 +254,23 @@ wheels = [
 ]
 
 [[package]]
+name = "groq"
+version = "0.24.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "distro" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "sniffio" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c8/23/d71f076e9fd5f4f8989387c0bca3b5fd02c5eaa17f8fe0777fe0940d2d80/groq-0.24.0.tar.gz", hash = "sha256:e821559de8a77fb81d2585b3faec80ff923d6d64fd52339b33f6c94997d6f7f5", size = 125654 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/98/f0/faa2a007981d74c3e0fe141d07e4ed43b95fed00d3b8489696602b51119d/groq-0.24.0-py3-none-any.whl", hash = "sha256:0020e6b0b2b267263c9eb7c318deef13c12f399c6525734200b11d777b00088e", size = 127536 },
+]
+
+[[package]]
 name = "gunicorn"
 version = "23.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -845,6 +862,7 @@ dependencies = [
     { name = "email-validator" },
     { name = "flask" },
     { name = "flask-sqlalchemy" },
+    { name = "groq" },
     { name = "gunicorn" },
     { name = "nltk" },
     { name = "numpy" },
@@ -862,6 +880,7 @@ requires-dist = [
     { name = "email-validator", specifier = ">=2.2.0" },
     { name = "flask", specifier = ">=3.1.1" },
     { name = "flask-sqlalchemy", specifier = ">=3.1.1" },
+    { name = "groq", specifier = ">=0.24.0" },
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "nltk", specifier = ">=3.9.1" },
     { name = "numpy", specifier = ">=2.2.5" },

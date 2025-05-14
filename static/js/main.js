@@ -32,7 +32,22 @@ document.addEventListener('DOMContentLoaded', function() {
         "How much would the conversion cost?",
         "What is the current financial status?",
         "What does the president think about conversion?",
-        "How many employees work at Rubber Bumper?"
+        "How many employees work at Rubber Bumper?",
+        "What is the rubber band factory's profit?",
+        "What is the condom factory's profit?",
+        "What is the overhead for each factory?",
+        "How has market share changed since 2011?",
+        "Which factory has better margins?",
+        "Why are profits decreasing?",
+        "What's the expected ROI for conversion?",
+        "What are the competitive advantages?",
+        "What are the disadvantages of conversion?",
+        "How long would conversion take?",
+        "Would the company lose customers during conversion?",
+        "What are the long-term benefits of conversion?",
+        "Should they keep both product lines?",
+        "What's the biggest challenge for Rubber Bumper?",
+        "How would conversion affect employees?"
     ];
     
     // Track which questions have been asked
