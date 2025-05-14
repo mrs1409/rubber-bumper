@@ -13,7 +13,10 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "rubber_bumper_default_key")
 
 # Set up Hugging Face API key in environment variables
-os.environ["HUGGINGFACE_API_KEY"] = os.environ.get("HUGGINGFACE_API_KEY", "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")
+# For this chatbot, we're not actually using the Hugging Face API for generation
+# since we've implemented a robust direct response system. A single token with read scope would be sufficient.
+huggingface_api_key = os.environ.get("HUGGINGFACEHUB_API_TOKEN") or os.environ.get("HUGGINGFACE_API_KEY", "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")
+os.environ["HUGGINGFACE_API_KEY"] = huggingface_api_key
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 # Initialize vector store with pre-loaded Rubber Bumper data
