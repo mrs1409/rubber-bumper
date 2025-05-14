@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     questionList.className = 'question-list';
     questionList.id = 'question-list';
     
-    // All available suggested questions
+    // All available suggested questions (more than what we'll display at once)
     const allSuggestedQuestions = [
         "What is the company name?",
         "What products does Rubber Bumper sell?",
@@ -27,28 +27,72 @@ document.addEventListener('DOMContentLoaded', function() {
         "What are the profit margins for each product?",
         "Should they convert the rubber band factory?",
         "What are the risks of factory conversion?",
-        "Who are the main competitors?"
+        "Who are the main competitors?",
+        "What is the payback period for conversion?",
+        "How much would the conversion cost?",
+        "What is the current financial status?",
+        "What does the president think about conversion?",
+        "How many employees work at Rubber Bumper?"
     ];
     
-    // Create and append question items
-    allSuggestedQuestions.forEach(question => {
-        const questionItem = document.createElement('div');
-        questionItem.className = 'question-item p-2 mb-2 suggested-question';
-        questionItem.textContent = question;
-        questionItem.addEventListener('click', function() {
-            messageInput.value = this.textContent;
+    // Track which questions have been asked
+    let askedQuestions = new Set();
+    
+    // Function to update the suggested questions
+    function updateSuggestedQuestions() {
+        // Get questions that haven't been asked yet
+        const availableQuestions = allSuggestedQuestions.filter(q => !askedQuestions.has(q));
+        
+        // If almost all questions have been asked, reset
+        if (availableQuestions.length < 5) {
+            askedQuestions.clear();
+        }
+        
+        // Clear the current questions
+        const existingQuestionList = document.getElementById('question-list');
+        if (existingQuestionList) {
+            existingQuestionList.innerHTML = '';
+            
+            // Add 10 questions (or all available if less than 10)
+            const questionsToShow = availableQuestions.slice(0, 10);
+            
+            questionsToShow.forEach(question => {
+                const questionItem = document.createElement('div');
+                questionItem.className = 'question-item p-2 mb-2 suggested-question';
+                questionItem.textContent = question;
+                questionItem.addEventListener('click', function() {
+                    messageInput.value = this.textContent;
+                    
+                    // Mark this question as asked
+                    askedQuestions.add(this.textContent);
+                    
+                    // Send the message
+                    sendMessage();
+                    
+                    // Update suggested questions with a slight delay
+                    setTimeout(updateSuggestedQuestions, 300);
+                });
+                existingQuestionList.appendChild(questionItem);
+            });
+        }
+    }
+    
+    // Update the quick reply buttons behavior
+    quickReplyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const question = this.textContent;
+            messageInput.value = question;
+            
+            // Remove this button after it's clicked
+            this.style.display = 'none';
+            
+            // Send the message
             sendMessage();
         });
-        questionList.appendChild(questionItem);
     });
     
-    // Replace existing content with new questions
-    const existingQuestionList = document.getElementById('question-list');
-    if (existingQuestionList) {
-        existingQuestionList.innerHTML = questionList.innerHTML;
-    } else if (suggestedQuestionsContainer) {
-        suggestedQuestionsContainer.appendChild(questionList);
-    }
+    // Initialize suggested questions
+    updateSuggestedQuestions();
     
     // Auto-resize textarea
     messageInput.addEventListener('input', function() {

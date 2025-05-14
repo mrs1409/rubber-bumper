@@ -151,71 +151,102 @@ def get_chat_response(user_message, vector_store, max_context_length=4000):
     if direct_response:
         return direct_response
     
-    # Check if message contains "company name"
+    # Extract important keywords from user message
     message_lower = user_message.lower()
-    if "company name" in message_lower or "name of the company" in message_lower or "what is the company" in message_lower:
-        return "Rubber Bumper Co."
+    message_words = set(message_lower.split())
     
-    # Check if the question appears to be about specific topics that aren't in the direct responses
-    company_info_terms = ["what is rubber bumper", "describe rubber bumper", "tell me about the company", "information about rubber bumper"]
-    for term in company_info_terms:
-        if term in message_lower:
-            return "Rubber Bumper Co is a small family-owned producer of rubber products that makes rubber bands and condoms."
+    # Define categories of questions with specific keywords
+    product_terms = {"product", "sell", "make", "band", "condom", "rubber"}
+    factory_terms = {"factory", "factories", "produce", "production", "manufacturing", "plant"}
+    market_terms = {"market", "industry", "growth", "trend", "competition", "demand", "supply"}
+    financial_terms = {"profit", "margin", "revenue", "cost", "financial", "money", "income", "expense", "overhead"}
+    conversion_terms = {"convert", "conversion", "transform", "change", "switch", "transition"}
+    recommendation_terms = {"recommend", "suggestion", "advice", "should", "best", "option", "decision"}
     
-    # Check if question is completely unrelated to Rubber Bumper
-    rubber_bumper_terms = ["rubber", "bumper", "band", "condom", "factory", "profit", "market", "competitor", 
-                           "risk", "conversion", "president", "product", "margin", "overhead", "payback", 
-                           "cost", "revenue", "sales", "strategic", "company"]
+    # Check category of question by counting keyword matches
+    product_score = sum(1 for term in product_terms if term in message_words)
+    factory_score = sum(1 for term in factory_terms if term in message_words)
+    market_score = sum(1 for term in market_terms if term in message_words)
+    financial_score = sum(1 for term in financial_terms if term in message_words)
+    conversion_score = sum(1 for term in conversion_terms if term in message_words)
+    recommendation_score = sum(1 for term in recommendation_terms if term in message_words)
     
-    is_related = False
-    for term in rubber_bumper_terms:
-        if term in message_lower:
-            is_related = True
-            break
+    # Determine the primary topic of the question
+    scores = {
+        "product": product_score,
+        "factory": factory_score,
+        "market": market_score,
+        "financial": financial_score,
+        "conversion": conversion_score,
+        "recommendation": recommendation_score
+    }
+    primary_topic = max(scores.items(), key=lambda x: x[1])[0] if any(scores.values()) else None
     
-    # If clearly unrelated, give a brief response
-    if not is_related:
-        return "I can only answer questions about Rubber Bumper Co. Please ask me about their products, market position, financials, or strategic options."
+    # If the question is clearly unrelated to Rubber Bumper
+    if primary_topic is None:
+        rubber_bumper_terms = {"rubber", "bumper", "band", "condom", "factory", "profit", "market", "competitor", 
+                               "risk", "conversion", "president", "product", "margin", "overhead", "payback", 
+                               "cost", "revenue", "sales", "strategic", "company"}
+        
+        if not any(term in message_words for term in rubber_bumper_terms):
+            return "I can only answer questions about Rubber Bumper Co."
     
-    # Get relevant context from the vector store
-    relevant_contexts = vector_store.search(user_message, top_k=3)
+    # Get relevant context from the vector store for better contextual understanding
+    relevant_contexts = vector_store.search(user_message, top_k=2)
     
-    # Get the best match regardless of score
+    # Specific direct responses based on topic
+    if primary_topic == "product":
+        return "Rubber Bumper Co sells two products: rubber bands and condoms."
+    
+    elif primary_topic == "factory":
+        return "Rubber Bumper Co has two factories - one for producing rubber bands and one for producing condoms."
+    
+    elif primary_topic == "market":
+        if "band" in message_words or "rubber band" in message_lower:
+            return "The rubber band market has been flat (0% growth), with Rubber Bumper's share decreasing from 4 million pounds in 2011 to 2 million pounds in 2017."
+        elif "condom" in message_words:
+            return "The condom market has grown 30% from 2011 to 2017, increasing from 350 million to 450 million units."
+        else:
+            return "The rubber band market has been flat, while the condom market has grown 30% from 2011 to 2017."
+    
+    elif primary_topic == "financial":
+        if "margin" in message_words or "profit margin" in message_lower:
+            return "Condoms have a 60% profit margin, while rubber bands have a 40% profit margin."
+        elif "compare" in message_words or "comparison" in message_lower:
+            return "The condom factory had a profit of $4.5 million in 2017 with a 60% margin, while the rubber band factory had a profit of $4 million with a 40% margin."
+        else:
+            return "The condom business is more profitable with a 60% margin compared to the rubber band business with a 40% margin."
+    
+    elif primary_topic == "conversion":
+        if "cost" in message_words:
+            return "Converting the rubber band factory to produce condoms would cost $2 million."
+        elif "risk" in message_words:
+            return "Key risks of conversion include: assuming Rubber Bumper can triple condom sales, potential rebound in rubber band demand, less product diversification, and employee resistance."
+        elif "payback" in message_words:
+            return "The payback period for the factory conversion would be 5 years, which exceeds the company's 4-year target."
+        else:
+            return "Converting the rubber band factory to produce condoms would cost $2 million and take 1 year. After conversion, the factory could produce 20 million condoms with a 5-year payback period."
+    
+    elif primary_topic == "recommendation":
+        return "The company should first invest in market research to verify demand for increased condom production before converting the factory, as the 5-year payback period currently exceeds their 4-year target."
+    
+    # If we have a relevant context from the vector store, use that
     if relevant_contexts:
         best_context = relevant_contexts[0][0]
         
-        # Extract key facts from the context
-        lines = best_context.strip().split('\n')
-        relevant_lines = []
-        for line in lines:
-            line = line.strip()
-            if line and not line.startswith('#') and not line.startswith('---'):
-                relevant_lines.append(line)
+        # Extract key facts from the context - only short, direct statements
+        sentences = [s.strip() for s in re.split(r'[.!?]', best_context) if s.strip()]
         
-        # Return the most direct, concise answer possible
-        if relevant_lines:
-            # For very short contexts, just return them directly
-            if len(relevant_lines) <= 3:
-                return " ".join(relevant_lines)
-            # For longer contexts, be more selective
-            else:
-                # Look for the most specific sentence related to the question
-                for line in relevant_lines:
-                    for word in message_lower.split():
-                        if word in line.lower() and len(line) < 150:  # Short, relevant line
-                            return line
-                
-                # If no single line seems perfect, return the first line or two
-                return " ".join(relevant_lines[:2])
+        # Find the most relevant sentence (shortest one that contains keywords from the question)
+        for sentence in sorted(sentences, key=len):
+            if any(word in sentence.lower() for word in message_words if len(word) > 3):
+                if len(sentence) < 200:  # Keep responses concise
+                    return sentence
+        
+        # If no perfect match, return the shortest informative sentence
+        for sentence in sorted(sentences, key=len):
+            if len(sentence) > 20 and len(sentence) < 150:
+                return sentence
     
-    # Last resort fallback for Rubber Bumper-related questions we don't have specific info for
-    if "product" in message_lower:
-        return "Rubber Bumper Co sells two products: rubber bands and condoms."
-    elif "factory" in message_lower or "factories" in message_lower:
-        return "Rubber Bumper Co has two factories - one for producing rubber bands and one for producing condoms."
-    elif "market" in message_lower:
-        return "Rubber Bumper is the market leader in both their product industries (rubber bands and condoms)."
-    elif "profit" in message_lower or "financial" in message_lower:
-        return "The condom business is more profitable with a 60% margin compared to the rubber band business with a 40% margin."
-    else:
-        return "Rubber Bumper Co is a small family-owned producer of rubber products that makes rubber bands and condoms. They're considering converting their rubber band factory to produce more condoms due to market trends and profitability differences."
+    # Last resort fallback - shortest, most direct answer
+    return "Rubber Bumper Co is a small family-owned producer of rubber bands and condoms. The condom business is more profitable (60% margin vs 40% margin for rubber bands)."
