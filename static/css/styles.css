@@ -308,21 +308,110 @@ body {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        z-index: 1000;
-        width: 80%;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
+@media (max-width: 991px) {
+    /* Tablet adjustments */
+    .message-content {
+        max-width: 80%;
     }
 
-    .sidebar.show {
+    .chat-header h4 {
+        font-size: 1.4rem;
+    }
+
+    .chat-header p {
+        font-size: 0.9rem;
+    }
+
+    .sidebar-content {
+        padding-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile adjustments */
+    .sidebar {
+        position: fixed;
+        z-index: 1050;
+        width: 85%;
+        max-width: 320px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: none;
+    }
+
+    .sidebar.show-sidebar {
         transform: translateX(0);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
     .message-content {
         max-width: 85%;
+    }
+
+    .message-bubble {
+        padding: 10px 12px;
+    }
+
+    .message-bubble p {
+        margin-bottom: 0;
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        margin: 0 6px;
+    }
+
+    /* Improve chat input on mobile */
+    .chat-input-container {
+        position: sticky;
+        bottom: 0;
+        background-color: var(--surface-color);
+        z-index: 10;
+        padding: 10px !important;
+    }
+
+    #message-input {
+        font-size: 16px; /* Prevent iOS zoom on focus */
+    }
+
+    #send-btn {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Small mobile adjustments */
+    .message-content {
+        max-width: 90%;
+    }
+
+    .chat-header {
+        padding: 10px !important;
+    }
+
+    .chat-header h4 {
+        font-size: 1.2rem;
+        margin-bottom: 2px;
+    }
+
+    .chat-header p {
+        font-size: 0.8rem;
+    }
+
+    .chat-messages {
+        padding: 10px !important;
+    }
+
+    /* Fix for long words breaking layout */
+    .message-bubble p {
+        word-break: break-word;
+        hyphens: auto;
     }
 }
 

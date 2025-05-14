@@ -3,6 +3,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Note: Page transitions and navigation are now handled by page-transitions.js
 
+    // Fix for mobile viewport height issues
+    function setMobileViewportHeight() {
+        // First we get the viewport height and multiply it by 1% to get a value for a vh unit
+        let vh = window.innerHeight * 0.01;
+        // Then we set the value in the --vh custom property to the root of the document
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+        // Also update any elements with vh-100 class
+        document.querySelectorAll('.vh-100').forEach(element => {
+            element.style.height = `${window.innerHeight}px`;
+        });
+    }
+
+    // Set the height initially
+    setMobileViewportHeight();
+
+    // Update the height whenever the window resizes
+    window.addEventListener('resize', setMobileViewportHeight);
+
+    // Update on orientation change
+    window.addEventListener('orientationchange', function() {
+        // Small delay to ensure the browser has completed the orientation change
+        setTimeout(setMobileViewportHeight, 100);
+    });
+
     // DOM Elements
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-btn');
@@ -211,27 +236,135 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 2000);
 
-    // Sidebar toggle functionality
+    // Get sidebar overlay element
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+    // Improved sidebar toggle functionality for both desktop and mobile
     sidebarToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('sidebar-collapsed');
-        chatContainer.classList.toggle('chat-container-expanded');
+        // Check if we're on mobile
+        const isMobile = window.innerWidth < 768;
 
-        // Force layout recalculation
-        document.body.offsetHeight;
+        if (isMobile) {
+            // Mobile behavior
+            sidebar.classList.toggle('show-sidebar');
+            sidebarOverlay.classList.toggle('active');
 
-        // Change icon based on sidebar state
-        const icon = this.querySelector('i');
-        if (sidebar.classList.contains('sidebar-collapsed')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-chevron-right');
+            // Change icon based on sidebar state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('show-sidebar')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                // Prevent body scrolling when sidebar is open
+                document.body.style.overflow = 'hidden';
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                // Restore body scrolling when sidebar is closed
+                document.body.style.overflow = '';
+            }
         } else {
-            icon.classList.remove('fa-chevron-right');
-            icon.classList.add('fa-bars');
+            // Desktop behavior
+            sidebar.classList.toggle('sidebar-collapsed');
+            chatContainer.classList.toggle('chat-container-expanded');
+
+            // Force layout recalculation
+            document.body.offsetHeight;
+
+            // Change icon based on sidebar state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('sidebar-collapsed')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-chevron-right');
+            } else {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-bars');
+            }
         }
 
         // Trigger window resize event to force layout recalculation
         window.dispatchEvent(new Event('resize'));
     });
+
+    // Close sidebar when clicking on overlay (mobile only)
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+            sidebar.classList.remove('show-sidebar');
+            sidebarOverlay.classList.remove('active');
+
+            // Change icon back to bars
+            const icon = sidebarToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+
+            // Restore body scrolling
+            document.body.style.overflow = '';
+        });
+    }
+
+    // Handle window resize to adjust UI based on screen size
+    window.addEventListener('resize', function() {
+        const isMobile = window.innerWidth < 768;
+
+        if (!isMobile) {
+            // If transitioning from mobile to desktop, clean up mobile-specific classes
+            sidebar.classList.remove('show-sidebar');
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.remove('active');
+            }
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Add swipe gesture support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Set up touch event handlers for the chat container
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+
+    // Handle swipe gestures
+    function handleSwipe() {
+        // Only process swipes on mobile
+        if (window.innerWidth >= 768) return;
+
+        const swipeThreshold = 100; // Minimum distance for a swipe
+        const swipeDistance = touchEndX - touchStartX;
+
+        // Right swipe (to open sidebar)
+        if (swipeDistance > swipeThreshold && !sidebar.classList.contains('show-sidebar')) {
+            sidebar.classList.add('show-sidebar');
+            sidebarOverlay.classList.add('active');
+
+            // Change icon
+            const icon = sidebarToggle.querySelector('i');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Left swipe (to close sidebar)
+        if (swipeDistance < -swipeThreshold && sidebar.classList.contains('show-sidebar')) {
+            sidebar.classList.remove('show-sidebar');
+            sidebarOverlay.classList.remove('active');
+
+            // Change icon back
+            const icon = sidebarToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+
+            // Restore body scrolling
+            document.body.style.overflow = '';
+        }
+    }
 
     // Auto-resize textarea
     messageInput.addEventListener('input', function() {
@@ -247,6 +380,40 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             this.style.overflowY = 'hidden';
         }
+    });
+
+    // Handle mobile keyboard appearance
+    messageInput.addEventListener('focus', function() {
+        // Check if we're on mobile
+        if (window.innerWidth < 768) {
+            // Add a class to the body to adjust layout when keyboard is visible
+            document.body.classList.add('keyboard-visible');
+
+            // Scroll to bottom after a short delay to ensure the input is visible
+            setTimeout(scrollToBottom, 300);
+
+            // Close sidebar if it's open
+            if (sidebar.classList.contains('show-sidebar')) {
+                sidebar.classList.remove('show-sidebar');
+                sidebarOverlay.classList.remove('active');
+
+                // Change icon back to bars
+                const icon = sidebarToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+
+                // Restore body scrolling
+                document.body.style.overflow = '';
+            }
+        }
+    });
+
+    messageInput.addEventListener('blur', function() {
+        // Remove the keyboard-visible class when input loses focus
+        document.body.classList.remove('keyboard-visible');
+
+        // Scroll to bottom after keyboard closes
+        setTimeout(scrollToBottom, 300);
     });
 
     // Send message on enter key (without shift)
@@ -522,8 +689,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to scroll chat to bottom
+    // Enhanced function to scroll chat to bottom with better mobile support
     function scrollToBottom() {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        // Use requestAnimationFrame to ensure the DOM has updated
+        requestAnimationFrame(() => {
+            // For most browsers
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // For Safari on iOS
+            if (chatMessages.scrollTo) {
+                chatMessages.scrollTo({
+                    top: chatMessages.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Additional check to ensure scrolling happened
+            setTimeout(() => {
+                if (chatMessages.scrollTop < chatMessages.scrollHeight - chatMessages.clientHeight) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 100);
+        });
     }
 });

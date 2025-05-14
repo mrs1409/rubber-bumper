@@ -1,0 +1,284 @@
+/* Mobile Optimizations for Rubber Bumper Chatbot
+   Ensures proper responsive behavior across all mobile devices */
+
+/* Global mobile adjustments */
+@media (max-width: 991px) {
+    body {
+        overflow-x: hidden;
+        position: relative;
+        height: 100%;
+    }
+
+    /* Fix for vh-100 issues on mobile browsers */
+    .vh-100 {
+        height: 100%;
+        min-height: 100vh;
+        /* Use custom property as fallback */
+        min-height: calc(var(--vh, 1vh) * 100);
+        /* Use dynamic viewport height if supported */
+        min-height: 100dvh;
+    }
+
+    /* Improve text readability on small screens */
+    p, .small {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    h4 {
+        font-size: 1.4rem;
+    }
+
+    h5 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Specific mobile adjustments */
+@media (max-width: 767px) {
+    /* Sidebar improvements */
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 85%;
+        max-width: 320px;
+        height: 100%;
+        z-index: 1050;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: none;
+    }
+
+    .sidebar.show-sidebar {
+        transform: translateX(0);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Sidebar toggle button */
+    #sidebar-toggle {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Chat container improvements */
+    .chat-container {
+        width: 100%;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* Chat header */
+    .chat-header {
+        padding: 12px !important;
+    }
+
+    .chat-header h4 {
+        font-size: 1.2rem;
+        margin-bottom: 4px;
+    }
+
+    .chat-header p {
+        font-size: 0.8rem;
+    }
+
+    /* Back to home link */
+    .back-to-home {
+        display: none; /* Hide in header on mobile */
+    }
+
+    /* Message improvements */
+    .message-row {
+        margin-bottom: 16px;
+    }
+
+    .message-content {
+        max-width: 80%;
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        margin: 0 6px;
+    }
+
+    .message-bubble {
+        padding: 10px 12px;
+    }
+
+    .message-bubble p {
+        margin-bottom: 0;
+    }
+
+    /* Chat input area */
+    .chat-input-container {
+        padding: 10px !important;
+        position: sticky;
+        bottom: 0;
+        background-color: var(--surface-color);
+        z-index: 10;
+    }
+
+    #message-input {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+    }
+
+    /* Suggested questions */
+    .question-item {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        margin-bottom: 6px;
+        white-space: normal;
+    }
+
+    /* Fix for sidebar content scrolling */
+    .sidebar-content {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 20px;
+    }
+
+    /* Overlay for when sidebar is open */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 575px) {
+    .message-content {
+        max-width: 85%;
+    }
+
+    .message-bubble {
+        padding: 8px 10px;
+    }
+
+    .chat-messages {
+        padding: 10px !important;
+    }
+
+    /* Improve key facts display */
+    .key-facts {
+        padding: 10px !important;
+    }
+
+    .fact-item {
+        margin-bottom: 10px;
+    }
+
+    .fact-item h6 {
+        font-size: 0.85rem;
+    }
+
+    /* Fix for long words breaking layout */
+    .message-bubble p {
+        word-break: break-word;
+        hyphens: auto;
+    }
+}
+
+/* Fix for iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+    .vh-100 {
+        height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
+    }
+
+    .sidebar, .chat-container {
+        height: -webkit-fill-available;
+        max-height: -webkit-fill-available;
+    }
+
+    .chat-messages {
+        /* Ensure chat messages don't overflow on iOS */
+        max-height: calc(100% - 120px);
+    }
+
+    /* Fix for iOS input focus issues */
+    .chat-input-container {
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+    }
+
+    /* Prevent content from being hidden behind the keyboard */
+    @media (max-height: 600px) {
+        .chat-messages {
+            max-height: calc(100% - 100px);
+        }
+    }
+}
+
+/* Fix for landscape mode */
+@media (max-height: 500px) and (orientation: landscape) {
+    .sidebar-header, .chat-header {
+        padding: 8px !important;
+    }
+
+    .sidebar-content {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .key-facts-section, .suggested-questions-section, .about-section {
+        margin-bottom: 10px !important;
+    }
+
+    .chat-messages {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
+}
+
+/* Adjustments when mobile keyboard is visible */
+@media (max-width: 767px) {
+    .keyboard-visible .chat-messages {
+        /* Reduce padding to maximize visible content */
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+    .keyboard-visible .message-row {
+        /* Reduce spacing between messages */
+        margin-bottom: 10px;
+    }
+
+    .keyboard-visible .chat-header {
+        /* Minimize header when keyboard is visible */
+        padding: 5px !important;
+    }
+
+    .keyboard-visible .chat-header h4 {
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .keyboard-visible .chat-header p {
+        display: none; /* Hide subtitle when keyboard is visible */
+    }
+
+    /* Ensure input is always visible above keyboard */
+    .keyboard-visible .chat-input-container {
+        position: sticky;
+        bottom: 0;
+        z-index: 30;
+        padding: 8px !important;
+    }
+}
