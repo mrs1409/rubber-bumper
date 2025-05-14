@@ -36,34 +36,55 @@
                 </div>
 
                 <div class="sidebar-content p-3">
-                    <div class="mb-4 pdf-upload-section">
-                        <h5>Upload Case Study</h5>
-                        <div class="upload-area p-3 text-center mb-2" id="drop-area">
-                            <i class="fas fa-file-pdf fa-2x mb-2"></i>
-                            <p>Drag & drop PDF or click to upload</p>
-                            <input type="file" id="file-input" accept=".pdf" class="d-none">
+                    <div class="mb-4 key-facts-section">
+                        <h5>Rubber Bumper Co. Facts</h5>
+                        <div class="key-facts p-3">
+                            <div class="fact-item">
+                                <h6><i class="fas fa-industry me-2"></i>Company</h6>
+                                <p class="small">Small family-owned producer of rubber products with a focus on quality.</p>
+                            </div>
+                            <div class="fact-item">
+                                <h6><i class="fas fa-boxes me-2"></i>Products</h6>
+                                <p class="small">Two main products: rubber bands and condoms.</p>
+                            </div>
+                            <div class="fact-item">
+                                <h6><i class="fas fa-chart-line me-2"></i>Market Position</h6>
+                                <p class="small">Market leader in both product categories.</p>
+                            </div>
+                            <div class="fact-item">
+                                <h6><i class="fas fa-money-bill-wave me-2"></i>Financial</h6>
+                                <p class="small">Decreasing profits despite stable sales over the last 3 years.</p>
+                            </div>
                         </div>
-                        <button class="btn btn-outline-secondary btn-sm w-100" id="upload-btn">
-                            <i class="fas fa-upload me-1"></i> Select PDF
-                        </button>
                     </div>
 
-                    <div class="mb-4 uploaded-docs">
-                        <h5>Uploaded Documents</h5>
-                        <div id="document-list" class="document-list">
-                            <p class="text-muted text-center small empty-state">No documents uploaded yet</p>
+                    <div class="mb-4 suggested-questions">
+                        <h5>Suggested Questions</h5>
+                        <div class="question-list">
+                            <div class="question-item p-2 mb-2 suggested-question">
+                                What are Rubber Bumper's products?
+                            </div>
+                            <div class="question-item p-2 mb-2 suggested-question">
+                                How has the rubber band market changed?
+                            </div>
+                            <div class="question-item p-2 mb-2 suggested-question">
+                                Compare the profitability of the two factories.
+                            </div>
+                            <div class="question-item p-2 mb-2 suggested-question">
+                                What are the risks of plant conversion?
+                            </div>
                         </div>
                     </div>
 
                     <div class="mb-4 about-section">
                         <h5>About</h5>
-                        <p class="small">Rubber Bumper Bot is designed to help you analyze case studies about Rubber Bumper Co., a family-owned manufacturer of rubber products. Upload PDF documents to enable intelligent chat functionality.</p>
+                        <p class="small">Rubber Bumper Bot is designed to help you analyze the Rubber Bumper Co. case study. Ask questions about the company's products, market position, financials, and strategic options.</p>
                     </div>
                 </div>
 
                 <div class="sidebar-footer p-3">
                     <button class="btn btn-danger btn-sm w-100" id="clear-btn">
-                        <i class="fas fa-trash me-1"></i> Clear All Data
+                        <i class="fas fa-trash me-1"></i> Clear Chat History
                     </button>
                 </div>
             </div>
@@ -84,7 +105,7 @@
                         </div>
                         <div class="message-content">
                             <div class="message-bubble">
-                                <p>Hello! I'm your Rubber Bumper case study assistant. Upload a PDF document to get started, and I'll help you analyze the information.</p>
+                                <p>Hello! I'm your Rubber Bumper case study assistant. I can answer questions about Rubber Bumper Co's business, market position, financial performance, and strategic options. Try asking me about their products, profit margins, or the potential plant conversion project.</p>
                             </div>
                             <div class="message-info">
                                 <span class="message-time">Just now</span>
@@ -101,9 +122,9 @@
                         </button>
                     </div>
                     <div id="quick-replies" class="mt-2 d-flex flex-wrap gap-2">
-                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">What products does Rubber Bumper sell?</button>
-                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">What are the profit margins?</button>
-                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">What is their market position?</button>
+                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">Should they convert the factory?</button>
+                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">Compare profitability of both products</button>
+                        <button class="btn btn-outline-secondary btn-sm quick-reply-btn">What are the market trends?</button>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatMessages = document.getElementById('chat-messages');
     const clearButton = document.getElementById('clear-btn');
     const quickReplyButtons = document.querySelectorAll('.quick-reply-btn');
+    const suggestedQuestions = document.querySelectorAll('.suggested-question');
     const loadingOverlay = document.getElementById('loading-overlay');
     
     // Chat history
@@ -45,9 +46,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Suggested questions
+    suggestedQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            messageInput.value = this.textContent.trim();
+            sendMessage();
+        });
+    });
+    
     // Clear button
     clearButton.addEventListener('click', function() {
-        if (confirm('Are you sure you want to clear all uploaded documents and chat history?')) {
+        if (confirm('Are you sure you want to clear your chat history?')) {
             clearAllData();
         }
     });

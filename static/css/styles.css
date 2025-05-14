@@ -78,51 +78,65 @@ body {
     flex-direction: column;
 }
 
-/* Upload Area */
-.upload-area {
-    border: 2px dashed var(--border-color);
+/* Key Facts Section */
+.key-facts {
+    border: 1px solid var(--border-color);
     border-radius: var(--rounded-md);
-    cursor: pointer;
-    transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    background-color: var(--surface-color);
 }
 
-.upload-area:hover {
-    border-color: var(--primary-color);
-    background-color: var(--hover-color);
+.fact-item {
+    margin-bottom: 12px;
 }
 
-.upload-area.dragover {
-    border-color: var(--primary-color);
-    background-color: var(--hover-color);
+.fact-item:last-child {
+    margin-bottom: 0;
 }
 
-/* Document List */
-.document-list {
-    max-height: 200px;
+.fact-item h6 {
+    color: var(--primary-color);
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.fact-item p {
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* Suggested Questions */
+.question-list {
+    max-height: 240px;
     overflow-y: auto;
 }
 
-.document-item {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    margin-bottom: 8px;
+.question-item {
     border-radius: var(--rounded-sm);
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
-}
-
-.document-icon {
-    color: #e64a19;
-    margin-right: 10px;
-}
-
-.document-name {
-    flex: 1;
     font-size: 0.9rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.question-item:hover {
+    border-color: var(--primary-color);
+    background-color: var(--hover-color);
+}
+
+.suggested-question {
+    position: relative;
+    padding-left: 26px;
+}
+
+.suggested-question:before {
+    content: '\f059';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 8px;
+    color: var(--primary-color);
 }
 
 /* Messages */

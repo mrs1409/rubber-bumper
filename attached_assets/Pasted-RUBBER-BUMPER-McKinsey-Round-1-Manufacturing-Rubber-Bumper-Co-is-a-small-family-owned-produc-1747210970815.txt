@@ -1,0 +1,218 @@
+RUBBER BUMPER
+ McKinsey | Round 1 | Manufacturing
+ Rubber Bumper Co is a small family owned producer of rubber products. It 
+prides itself on producing a limited range of products but producing the 
+highest quality on the market. In general, new products are introduced after 
+much deliberation and careful market study. The company has recently 
+appointed a new President who noticed decreasing profits over the last 
+couple of years.
+ (See the next page for Framework directions)
+ Clarifying Information:
+ Note: Provide this only if corresponding questions are asked.
+ What type of products do they sell? The company only sells two products; rubber bands and 
+condoms 
+Is the companyseeingsimilardeclinesin topline sales? Topline sales have remained relatively 
+stable over the last 3 years
+ What is Rubber Bumper’s market position?Rubber Bumper is the market leader in both of their 
+product industries
+ BEHAVIORAL 
+INTERVIEW 
+QUESTION:
+ 1. Why do you 
+want to pursue a 
+career in 
+Consulting?
+ 2. (Optional)
+ 168
+ UVA Darden School of Business 2018-19 Casebook
+169
+ Framework Guidance:
+ Note: There are many possible alternatives to this framework. These are only provided as possible suggestions.
+ Rubber Bumper Co has hired our firm to fix the decline in profits. What are all of the areas that need to be 
+examined in order to identify any major issues that should be a priority?
+ 12 | CASE: RUBBER BUMPER
+ UVA Darden School of Business 2018-19 Casebook
+ How to Move Forward:
+ To get to the next portion of the case, the interviewee should ask to explore:
+ Expected Analysis: There are a number of possible frameworks for this question. A good answer will cover 
+all areas you’d expect: industry trends, margins, product mix, competitors, etcwithin reason. Generic 
+frameworks are inappropriate. 
+170
+ EXHIBIT 1
+ 12 | CASE: RUBBER BUMPER
+ UVA Darden School of Business 2018-19 Casebook
+ Rubber bands sold each year (millions of pounds of rubber) 
+2011 2012 2013 2014 2015 2016 2017
+ Rubber Bumper 4 3 3 2.5 2.5 2.5 2
+ Max Rubber 17 19 21 21 22 23 24
+ Others (8) 9 9 8 7.5 6.5 4.5 5
+ Total 30 31 32 31 31 30 31
+ Condoms sold each year (millions of condoms) 
+2011 2012 2013 2014 2015 2016 2017
+ Rubber Bumper 1 2 5 10 10 10 10
+ Spartan 100 110 108 115 117 115 115
+ Durable 150 155 152 158 159 165 170
+ Others (15) 99 93 105 107 119 130 155
+ Total 350 360 370 390 405 420 450
+12 | CASE: RUBBER BUMPER
+ Exhibit Guidance:
+ The interviewee should notice and verbally acknowledge the following in Exhibit 1. This is where you insert question and the answers to the question
+ Question 1: The team decided to look at the product mix and their industry wide positions. The company only has two 
+products: rubber bands and condoms. The analysts on our team compiled these two tables. (Display Ex. 1). What does this 
+tell you? 
+How to Move Forward:
+ Expected Insights: 
+1.The rubber band market is flat whereas the condom market is showing strong growth in the United States 
+2.The dominant player in the rubber band industry is gaining more and more market share 
+3.While the condom industry is growing (30% from 2005 to 2011) the major competitors are not growing as fast (~15% each). 
+4.The condom industry is more fragmented than the rubber band industry, and the smaller players are getting a larger proportion of the market
+ Commentary: 
+The candidate should ultimately start to see that the rubber band industry is becoming less attractive and the condom 
+industry is showing growth and the major market players are not keeping up with the growth. A great response will 
+automatically want to see why Rubber Bumper’s condom growth has tapered off while the industry keeps expanding. If they 
+do not get to that issue, prod them until they do.
+ 171
+ UVA Darden School of Business 2018-19 Casebook
+12 | CASE: RUBBER BUMPER
+ Question 2: Rubber Bumper Co has two factories, each producing one of their two products. They essentially do not share 
+any fixed costs and for the most part are run as separate P&L’s. The team would like you to put together a quick summary 
+and compare the financial profitability of each of the two factories for the most recent year. 
+Rubber Band Factory 
+• They make boxes of 500 rubber bands that they sell to retailers for $20 a box 
+• 1 pound of rubber makes approximately 125 rubber bands 
+• They should already have the amount of rubber they used from the exhibit 
+• The rubber band factory has an inclusive $4MM in annual overhead 
+• [ONLY PROVIDE WHEN ASKED] It costs $1 to turn a pound of rubber into a pound of rubber bands (assume no 
+waste) 
+Condom Factory 
+• They sell 4 packs of condoms to retailers for $3 a pack 
+• They factory is smaller than the rubber band factory and only costs $2 MM in annual overhead, inclusive of everything 
+• [ONLY PROVIDE WHEN ASKED] Each condom costs $0.10 to make
+ 172
+ UVA Darden School of Business 2018-19 Casebook
+12 | CASE: RUBBER BUMPER
+ Expected Calculations: (Question 2) 
+Students may get tripped up because one starts with the number of condoms, and the other starts with the amount of pure 
+rubber and need to infer the number of bands sold. (rb = rubber band): 
+• 2MM lbs of rubber x 125rb’s/lb = 250 MM rb’s
+ • 250MM rb’s / 500 rbs/box = 500K boxes x $20 box = $10MM in Revenue 
+• 2MM lbs of rubber x $1 = $2MM in variable costs 
+• RB Profit = $10 - $2 - $4 = $4MM in profit 
+• 10 MM condoms / 4 pack = 2.5 MM packs x $3 = $7.5MM in Revenue 
+• 10MM condoms x $0.10 = $1MM in variable costs 
+• Condom Profit = 7.5 – 1 – 2 = 4.5MM in profit 
+Commentary: A good answer will arrive at the math and note that the two profits are fairly comparable. A great answer will 
+also note that the margin on the condoms is significantly higher (4.5 MM in profit for 3 MM in costs, rather than 4MM in 
+profit for 6 MM in costs). Also, a great answer will question why the overhead for the condom factory is small compared with 
+the rubber band.
+ 173
+ UVA Darden School of Business 2018-19 Casebook
+12 | CASE: RUBBER BUMPER
+ Question 3: It turns out that the two overhead figures are significantly different because the capacity of the second factory 
+is much smaller, about half as much. The President has asked us to evaluate whether we should switch production of the 
+first plant to make more condoms since we have reached capacity at the smaller plant (assume a factory can only make 1 
+thing). 
+Supplementary Information
+ Give out the following information ONLY WHEN REQUESTED. 
+• It will cost $2MM dollars to refurbish the new plant and take 1 year to complete during which time the factory will be off 
+line. (If asked, assume there are no tax benefits from depreciating the CapEx and no cost of capital) 
+• Overhead would remain the same 
+• During this time, we won’t be able to make any rubber bands 
+• The bigger plant can produce twice the volume of condoms as the smaller plant. 
+• Rubber Bumper Co’s payback period for such projects is 4 years. 
+• Assume that Rubber Bumpers rubber band demand has stabilized at 2MM lbs per year.
+ 174
+ UVA Darden School of Business 2018-19 Casebook
+12 | CASE: RUBBER BUMPER
+ Expected Calculations: (Question 3) 
+A bad answer will simply look at 4.5MM in profit and 4.0MM and say that Rubber Bumper should make more condoms. A 
+great answer will look into the costs, the opportunity costs, and the payback period to evaluate whether this should go 
+forward. Also a great interviewee will recognize the timing of the payments, and while we don’t have a cost of capital there 
+is a timeline such investments must prove profitable. 
+• 1 year offline they are losing (10MM – 2MM ) = $8MM in contribution 
+• Capital Expenditures = $2MM 
+• Total Cost of Project = 8 + 2 = $10MM 
+Note we assume that overhead will be paid while the factory is offline, but it should not count as an additional cost, since we would pay that 
+anyways. 
+• The benefit is the difference in profitability between the two products. 
+• The bigger factory can produce twice as many condoms; 6.5MM x 2 = 13MM 
+• The bigger factory is currently producing 8MM in contribution (because we are looking for the difference, the $4MM of overhead is a 
+wash) 
+• Switching will create an additional $13 – 8 = 5MM in profit. 
+• The interviewee should draw a conclusion towards the end noting that under these assumptions the project will repay itself in year 3 (1 
+year offline + 2 years of operation) and that it is within the required time frame. Additional second level insights are encouraged.
+ 175
+ UVA Darden School of Business 2018-19 Casebook
+12 | CASE: RUBBER BUMPER
+ BRAINSTORM
+ What are some of the risks involved with this project? 
+Brainstorming Guidance
+ This is a “what else” section. Below are some basics but ideally you’re looking for the interviewee to be as creative as 
+possible. As with most questions of this type, a bad answer will stop at one or two. A good answer will have a creative list. A 
+great answer will have a structure that makes the answer MECE. A great answer should also prioritize the findings indicating 
+which ones he thinks are the most important. 
+Key Points to Consider
+ • Assumes that Rubber Bumper can sell 3x the number of condoms it sells today, immediately. 
+• Assumes that rubber band demand wont rebound. The bigger plant is equally profitable because it is being underutilized 
+• Political parties could kill sex ed. 
+• Less diversification in products exposes them to increased market risk 
+• Condoms are not as generic of a product as rubber bands and may require a larger investment in advertising to compete on a higher level 
+• Potentially more legal risk in selling contraception than rubber bands 
+• Employees may not want to make condoms.
+ 176
+ UVA Darden School of Business 2018-19 Casebook
+12 | CASE: RUBBER BUMPER
+ CONCLUSION
+ The President is walking in the board room and expects a summary. Please summarize your findings.
+ Expected Analysis 
+The summary should start with a recommendation. “You should convert the plant” and then back track into the 
+reasoning: industry trends and financial justification. Finally it should mention which of the risks are the most 
+problematic and how he would mitigate it. The interviewer should feel free to challenge any part of the 
+conclusion and expect a well worded response.
+ 177
+ UVA Darden School of Business 2018-19 Casebook
+178
+ INTERVIEWER FEEDBACK FORM
+ Case Execution:
+  Framework
+  Logical approach
+  MECE
+  Creativity
+ 1 2     3     4     5
+ Notes:
+  Quantitative Ability
+  Accuracy
+  Speed
+  Analytical Approach
+  Errors / Guidance
+ 1 2     3     4     5
+ Notes:
+  Business Acumen
+  Insightful
+  Implementable 
+ Business Judgment
+  Creative Brainstorm
+ 1 2     3     4     5
+ Notes:
+  Presence & Non-Verbal
+  Confidence
+  Poise / Posture
+  Clear & Concise
+  Body Language
+  Coachability
+ 1 2     3     4     5
+ Notes:
+ Communication:
+  Case Materials
+  Organized Page Layout
+  Recognition of Errors
+  Resource References
+ 1 2     3     4     5
+ Notes:
+ Case Name _________________________ Interviewer ___________________________  
+Case Book ____________________ Case Type ____________ Difficulty ____________
+ Strengths: Opportunities: Case Execution:  ___ / 15
+ Communication:  ___ / 10
+ Behavioral:           ___ / 15
+ Total Score:          ___ / 40
+ Total Time: _____: _____
