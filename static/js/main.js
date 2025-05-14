@@ -5,14 +5,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatMessages = document.getElementById('chat-messages');
     const clearButton = document.getElementById('clear-btn');
     const quickReplyButtons = document.querySelectorAll('.quick-reply-btn');
-    const questionList = document.getElementById('question-list');
     const loadingOverlay = document.getElementById('loading-overlay');
     
     // Chat history
     let chatHistory = [];
     
-    // Track asked questions to avoid repeating them
-    let askedQuestions = new Set();
+    // Add static suggested questions instead of dynamic ones to fix the issue
+    const suggestedQuestionsContainer = document.querySelector('.suggested-questions');
+    const questionList = document.createElement('div');
+    questionList.className = 'question-list';
+    questionList.id = 'question-list';
     
     // All available suggested questions
     const allSuggestedQuestions = [
@@ -21,64 +23,32 @@ document.addEventListener('DOMContentLoaded', function() {
         "What is Rubber Bumper's market position?",
         "How have the rubber band sales changed over time?",
         "How has the condom market grown?",
-        "Which product is more profitable?",
+        "Which product is more profitable?", 
         "What are the profit margins for each product?",
         "Should they convert the rubber band factory?",
         "What are the risks of factory conversion?",
-        "Who are the main competitors?",
-        "What is the payback period for factory conversion?",
-        "How many factories does Rubber Bumper have?",
-        "What is the cost of factory conversion?",
-        "What is the president concerned about?",
-        "What recommendation would you give Rubber Bumper?"
+        "Who are the main competitors?"
     ];
     
-    // Function to shuffle an array (Fisher-Yates algorithm)
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-    
-    // Function to update suggested questions
-    function updateSuggestedQuestions() {
-        // Clear current questions
-        questionList.innerHTML = '';
-        
-        // Get available questions (those not yet asked)
-        const availableQuestions = allSuggestedQuestions.filter(q => !askedQuestions.has(q));
-        
-        // If all questions have been asked, reset the tracking
-        if (availableQuestions.length < 5) {
-            askedQuestions.clear();
-        }
-        
-        // Get shuffled available questions
-        const shuffledQuestions = shuffleArray([...allSuggestedQuestions])
-            .filter(q => !askedQuestions.has(q))
-            .slice(0, 10);
-        
-        // Add questions to the list
-        shuffledQuestions.forEach(question => {
-            const questionItem = document.createElement('div');
-            questionItem.className = 'question-item p-2 mb-2 suggested-question';
-            questionItem.textContent = question;
-            questionItem.addEventListener('click', function() {
-                messageInput.value = this.textContent;
-                // Mark this question as asked
-                askedQuestions.add(this.textContent);
-                sendMessage();
-                // Update suggested questions
-                setTimeout(updateSuggestedQuestions, 500);
-            });
-            questionList.appendChild(questionItem);
+    // Create and append question items
+    allSuggestedQuestions.forEach(question => {
+        const questionItem = document.createElement('div');
+        questionItem.className = 'question-item p-2 mb-2 suggested-question';
+        questionItem.textContent = question;
+        questionItem.addEventListener('click', function() {
+            messageInput.value = this.textContent;
+            sendMessage();
         });
-    }
+        questionList.appendChild(questionItem);
+    });
     
-    // Initialize suggested questions
-    updateSuggestedQuestions();
+    // Replace existing content with new questions
+    const existingQuestionList = document.getElementById('question-list');
+    if (existingQuestionList) {
+        existingQuestionList.innerHTML = questionList.innerHTML;
+    } else if (suggestedQuestionsContainer) {
+        suggestedQuestionsContainer.appendChild(questionList);
+    }
     
     // Auto-resize textarea
     messageInput.addEventListener('input', function() {
